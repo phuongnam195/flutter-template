@@ -1,5 +1,3 @@
-import 'package:let_tutor/utils/extensions/string_ext.dart';
-
 import 'network_exception.dart';
 
 class AuthException extends NetworkException {
@@ -7,6 +5,6 @@ class AuthException extends NetworkException {
       : super(message: message, statusCode: statusCode);
 
   String get description {
-    return message ?? 'unknown_error'.translate;
+    return message ?? 'Unknown error';
   }
 }
