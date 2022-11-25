@@ -9,15 +9,8 @@ abstract class NetworkModule {
     dio
       ..options.connectTimeout = 30000
       ..options.receiveTimeout = 15000
-      ..options.headers = {'Content-Type': 'application/json; charset=utf-8'}
-      ..interceptors.add(PrettyDioLogger(
-          requestHeader: true,
-          requestBody: true,
-          responseBody: true,
-          responseHeader: false,
-          error: true,
-          compact: true,
-          maxWidth: 120))
+      ..options.headers = _headers
+      ..interceptors.add(_dioLogger)
       ..interceptors.add(
         InterceptorsWrapper(
           onRequest: (options, handler) async {
@@ -36,4 +29,27 @@ abstract class NetworkModule {
 
     return dio;
   }
+
+  static Dio provideAuthDio(SharedPreferenceHelper sharedPrefHelper) {
+    final authDio = Dio();
+
+    authDio
+      ..options.connectTimeout = 30000
+      ..options.receiveTimeout = 15000
+      ..options.headers = _headers
+      ..interceptors.add(_dioLogger);
+
+    return authDio;
+  }
+
+  static final _headers = {'Content-Type': 'application/json; charset=utf-8'};
+
+  static final _dioLogger = PrettyDioLogger(
+      requestHeader: true,
+      requestBody: true,
+      responseBody: true,
+      responseHeader: false,
+      error: true,
+      compact: true,
+      maxWidth: 120);
 }
